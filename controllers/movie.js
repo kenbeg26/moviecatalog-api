@@ -8,10 +8,10 @@ const mongoose = require('mongoose');
 // Create Movie
 module.exports.addMovie = async (req, res) => {
   try {
-    const { title, director, year, description, genre } = req.body;
+    const { title, director, year, description, genre, imageUrl  } = req.body;
     const userId = req.user?.id;
 
-    if (!title || !director || !year || !description || !genre) {
+    if (!title || !director || !year || !description || !genre || !imageUrl) {
       return res.status(400).json({ error: "Required fields missing." });
     }
 
@@ -25,6 +25,7 @@ module.exports.addMovie = async (req, res) => {
       year,
       description,
       genre,
+      imageUrl,
       comments: [] // initialize empty comments
     });
 
@@ -36,6 +37,7 @@ module.exports.addMovie = async (req, res) => {
       year: savedMovie.year,
       description: savedMovie.description,
       genre: savedMovie.genre,
+      imageUrl: savedMovie.imageUrl,
       _id: savedMovie._id,
       comments: savedMovie.comments,
       __v: savedMovie.__v
@@ -79,12 +81,12 @@ module.exports.getMovieById = (req, res) => {
 module.exports.updateMovie = async (req, res) => {
   try {
     const { movieId } = req.params;
-    const { title, director, year, description, genre } = req.body;
+    const { title, director, year, description, genre, imageUrl } = req.body;
 
     // Find movie by ID and update the fields
     const updatedMovie = await Movie.findByIdAndUpdate(
       movieId,
-      { title, director, year, description, genre },
+      { title, director, year, description, genre, imageUrl },
       { new: true, runValidators: true }
     );
 

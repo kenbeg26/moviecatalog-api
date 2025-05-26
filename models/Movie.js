@@ -23,6 +23,17 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Genre is Required']
   },
+  imageUrl: {
+        type: String,
+        required: [true, 'Product Image URL is Required'],
+        validate: {
+            validator: function(url) {
+                // Simple URL validation regex
+                return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test(url);
+            },
+            message: props => `${props.value} is not a valid URL!`
+        }
+    },
   comments: [
     {
       userId: {

@@ -20,7 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 const corsOptions = {
-  origin: ['http://localhost:4000'],
+  origin: ['http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -42,8 +42,8 @@ app.use("/movies", movieRoutes);
 // if(require.main) would allow us to listen to the app directly if it is not imported to another module, it will run the app directly.
 // else, if it is needed to be imported, it will not run the app and instead export it to be used in another file.
 if (require.main === module) {
-  app.listen(process.env.PORT || 4000, () => {
-    console.log(`API is now online on port ${process.env.PORT || 4000}`)
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(`API is now online on port ${process.env.PORT || 3000}`)
   });
 }
 

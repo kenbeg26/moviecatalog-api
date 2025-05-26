@@ -25,12 +25,21 @@ module.exports.addMovie = async (req, res) => {
       year,
       description,
       genre,
-      userId
+      comments: [] // initialize empty comments
     });
 
     const savedMovie = await newMovie.save();
 
-    return res.status(201).json(savedMovie);
+    return res.status(201).json({
+      title: savedMovie.title,
+      director: savedMovie.director,
+      year: savedMovie.year,
+      description: savedMovie.description,
+      genre: savedMovie.genre,
+      _id: savedMovie._id,
+      comments: savedMovie.comments,
+      __v: savedMovie.__v
+    });
 
   } catch (error) {
     console.error(error);
@@ -43,6 +52,7 @@ module.exports.addMovie = async (req, res) => {
     });
   }
 };
+
 
 // Get Movies
 module.exports.getMovie = (req, res) => {
@@ -176,7 +186,7 @@ module.exports.getComment = async (req, res) => {
       comments: movie.comments.map(comment => ({
         userId: comment.userId.toString(),
         comment: comment.comment,
-        "-id": comment._id.toString() // Assuming test expects this exact key
+        "_id": comment._id.toString() // Assuming test expects this exact key
       }))
     };
 

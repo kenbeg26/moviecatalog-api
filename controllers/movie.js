@@ -8,10 +8,10 @@ const mongoose = require('mongoose');
 // Create Movie
 module.exports.addMovie = async (req, res) => {
   try {
-    const { title, director, year, description, genre, imageUrl  } = req.body;
+    const { title, director, year, description, genre } = req.body;
     const userId = req.user?.id;
 
-    if (!title || !director || !year || !description || !genre || !imageUrl) {
+    if (!title || !director || !year || !description || !genre) {
       return res.status(400).json({ error: "Required fields missing." });
     }
 
@@ -25,23 +25,12 @@ module.exports.addMovie = async (req, res) => {
       year,
       description,
       genre,
-      imageUrl,
-      comments: [] // initialize empty comments
+      userId
     });
 
     const savedMovie = await newMovie.save();
 
-    return res.status(201).json({
-      title: savedMovie.title,
-      director: savedMovie.director,
-      year: savedMovie.year,
-      description: savedMovie.description,
-      genre: savedMovie.genre,
-      imageUrl: savedMovie.imageUrl,
-      _id: savedMovie._id,
-      comments: savedMovie.comments,
-      __v: savedMovie.__v
-    });
+    return res.status(201).json(savedMovie);
 
   } catch (error) {
     console.error(error);
@@ -54,7 +43,6 @@ module.exports.addMovie = async (req, res) => {
     });
   }
 };
-
 
 // Get Movies
 module.exports.getMovie = (req, res) => {
@@ -81,12 +69,12 @@ module.exports.getMovieById = (req, res) => {
 module.exports.updateMovie = async (req, res) => {
   try {
     const { movieId } = req.params;
-    const { title, director, year, description, genre, imageUrl } = req.body;
+    const { title, director, year, description, genre } = req.body;
 
     // Find movie by ID and update the fields
     const updatedMovie = await Movie.findByIdAndUpdate(
       movieId,
-      { title, director, year, description, genre, imageUrl },
+      { title, director, year, description, genre },
       { new: true, runValidators: true }
     );
 
@@ -188,7 +176,7 @@ module.exports.getComment = async (req, res) => {
       comments: movie.comments.map(comment => ({
         userId: comment.userId.toString(),
         comment: comment.comment,
-        "_id": comment._id.toString() // Assuming test expects this exact key
+        "-id": comment._id.toString() // Assuming test expects this exact key
       }))
     };
 

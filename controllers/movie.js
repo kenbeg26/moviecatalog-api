@@ -176,7 +176,7 @@ module.exports.getComment = async (req, res) => {
       comments: movie.comments.map(comment => ({
         userId: comment.userId.toString(),
         comment: comment.comment,
-        "-id": comment._id.toString() // Assuming test expects this exact key
+        id: comment._id.toString() // Assuming test expects this exact key
       }))
     };
 

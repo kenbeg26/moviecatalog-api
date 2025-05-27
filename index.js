@@ -35,6 +35,10 @@ const corsOptions = {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
+app.options('/', cors(corsOptions));
+app.get("/test", (req, res) => {
+  res.json({ message: "CORS test passed" });
+});
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_STRING);

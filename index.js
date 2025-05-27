@@ -20,7 +20,13 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 const corsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: [
+    'http://localhost:3000',
+    'https://movie-app-client-snowy.vercel.app/',
+    'https://movie-app-client-git-master-john-kenneths-projects.vercel.app/',
+    'https://movie-app-client-idnyv71q9-john-kenneths-projects.vercel.app/'
+
+  ],
   credentials: true,
   optionsSuccessStatus: 200
 };

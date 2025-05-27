@@ -1,8 +1,6 @@
-//[Section] Dependency
 const mongoose = require('mongoose');
 
 const movieSchema = new mongoose.Schema({
-
   title: {
     type: String,
     required: [true, 'Title is Required']
@@ -22,6 +20,11 @@ const movieSchema = new mongoose.Schema({
   genre: {
     type: String,
     required: [true, 'Genre is Required']
+  },
+  poster: {
+    type: String,
+    required: false, // optional, fallback image will be shown if not provided
+    default: '' // or provide a default URL if you want
   },
   comments: [
     {

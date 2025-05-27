@@ -6,9 +6,10 @@ const { errorHandler } = auth;
 const mongoose = require('mongoose');
 
 // Create Movie
+// Create Movie
 module.exports.addMovie = async (req, res) => {
   try {
-    const { title, director, year, description, genre } = req.body;
+    const { title, director, year, description, genre, poster } = req.body; // <--- include poster
     const userId = req.user?.id;
 
     if (!title || !director || !year || !description || !genre) {
@@ -25,6 +26,7 @@ module.exports.addMovie = async (req, res) => {
       year,
       description,
       genre,
+      poster, // <--- include poster
       userId
     });
 
@@ -43,6 +45,7 @@ module.exports.addMovie = async (req, res) => {
     });
   }
 };
+
 
 // Get Movies
 module.exports.getMovie = (req, res) => {
@@ -69,12 +72,12 @@ module.exports.getMovieById = (req, res) => {
 module.exports.updateMovie = async (req, res) => {
   try {
     const { movieId } = req.params;
-    const { title, director, year, description, genre } = req.body;
+    const { title, director, year, description, genre, poster } = req.body; // <--- include poster
 
     // Find movie by ID and update the fields
     const updatedMovie = await Movie.findByIdAndUpdate(
       movieId,
-      { title, director, year, description, genre },
+      { title, director, year, description, genre, poster }, // <--- include poster
       { new: true, runValidators: true }
     );
 
@@ -92,6 +95,7 @@ module.exports.updateMovie = async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 // Delete Movie
 module.exports.deleteMovie = async (req, res) => {
